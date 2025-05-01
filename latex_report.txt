@@ -9,10 +9,11 @@
 \usepackage{xcolor}
 \usepackage{float}
 \usepackage{tikz}
-\usepackage{dot2tex}
-\usetikzlibrary{shapes,arrows,positioning}
-
-% Define colors for the flowchart
+\usetikzlibrary{shapes,arrows,positioning,backgrounds,fit}
+\definecolor{lightskyblue}{RGB}{135,206,250}
+\definecolor{lightgreen}{RGB}{144,238,144}
+\definecolor{lightyellow}{RGB}{255,255,224}
+\definecolor{lightsalmon}{RGB}{255,160,122}
 \colorlet{block}{blue!30}
 \colorlet{line}{blue!50!black}
 
