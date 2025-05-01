@@ -1,0 +1,6 @@
+Flask
+requests
+cryptography
+pytest
+scikit-learn
+numpy
