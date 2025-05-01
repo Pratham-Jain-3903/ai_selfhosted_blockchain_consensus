@@ -1,0 +1,366 @@
+% filepath: d:\College\web3_blockchain\research_proposal.tex
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{dot2tex}
+\usetikzlibrary{shapes,arrows,positioning}
+
+% Define colors for the flowchart
+\colorlet{block}{blue!30}
+\colorlet{line}{blue!50!black}
+
+\title{Blockchain-Based Machine Learning Integration: A Framework for Collaborative and Transparent Model Training}
+\author{Pratham Jain \\ \href{mailto:Prathamjain3903@gmail.com}{Prathamjain3903@gmail.com}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Executive Summary/Problem Statement}
+This research addresses the integration of machine learning capabilities with blockchain technology to create a decentralized, transparent, and collaborative framework for model training and deployment. With the increasing need for trust and transparency in AI systems, blockchain offers a promising solution for immutable record-keeping and verification of model development. However, practical implementations that demonstrate the core principles and trade-offs of this integration remain scarce, particularly those accessible to developers without specialized knowledge in both domains.
+
+This project presents a lightweight implementation of a blockchain system with integrated machine learning capabilities, focused on incremental learning of a K-Nearest Neighbors (KNN) classifier. The system enables participants to collaboratively build datasets and train models while maintaining a verifiable history of all contributions and model updates. By addressing the practical challenges of blockchain-ML integration in an accessible manner, this research fills a critical gap between theoretical research and practical implementation.
+
+\section{Objectives}
+The primary objectives of this research are:
+
+\begin{enumerate}
+    \item To develop a functional and accessible implementation of a blockchain system with integrated machine learning capabilities
+    \item To demonstrate how incremental learning models (specifically KNN classifiers) can effectively operate within blockchain constraints
+    \item To analyze and document the trade-offs between decentralization, transparency, and computational efficiency in blockchain-based ML systems
+    \item To provide a foundation for further research and development in decentralized AI systems
+    \item To create educational resources that make blockchain-ML integration concepts accessible to a wider audience of developers and researchers
+\end{enumerate}
+
+These objectives address important technical and economic aspects of decentralized AI systems, which are increasingly relevant as organizations seek to deploy trustworthy and collaborative AI solutions.
+
+\section{Major Scientific Fields of Interest/Literature Review}
+This research intersects several major scientific fields:
+
+\begin{itemize}
+    \item Blockchain Technology
+    \item Machine Learning
+    \item Distributed Computing
+    \item Cryptography
+    \item Consensus Mechanisms
+\end{itemize}
+
+Recent literature has highlighted significant advances in the integration of blockchain and machine learning:
+
+\subsection{Foundational Work}
+"Decentralized \& Collaborative AI on Blockchain" (Harris and Waggoner, 2019 IEEE International Conference on Blockchain) from Microsoft explores frameworks for participants to collaboratively build datasets and use smart contracts to host continuously updated ML models on a blockchain. This work establishes the theoretical foundation for blockchain-based ML systems.
+
+\subsection{Recent Developments in Blockchain-based ML}
+\begin{itemize}
+    \item "Opp/ai: Optimistic Privacy-Preserving AI on Blockchain" (So et al., 2024) introduces a hybrid framework combining Zero-Knowledge Machine Learning (zkML) for privacy with Optimistic Machine Learning (opML) for efficiency, balancing privacy protection and computational efficiency in blockchain environments.
+    
+    \item "OpML: Optimistic Machine Learning on Blockchain" (Conway et al., 2024) presents opML as an innovative approach enabling blockchain systems to conduct AI model inference through an interactive fraud proof protocol, offering improved cost efficiency while maintaining verification capabilities.
+    
+    \item "A New Consensus Mechanism for Blockchained Federated Learning Systems Using Optimistic Rollups" (Gonçalves et al., 2024) explores using optimistic rollups to enhance security in federated learning frameworks on blockchain.
+    
+    \item "A Quality-of-Service Compliance System using Federated Learning and Optimistic Rollups" (Gonçalves et al., 2023) examines privacy preservation in edge computing, using federated learning to keep sensitive data on source machines while leveraging blockchain for security and incentive mechanisms.
+\end{itemize}
+
+\section{Significance of the Topic/Research Problem}
+The integration of blockchain and machine learning offers several significant benefits that address current challenges in AI development and deployment:
+
+\begin{enumerate}
+    \item \textbf{Transparency and Trust}: As AI systems increasingly influence critical decisions, blockchain provides a verifiable record of model development, increasing trust in the resulting models.
+    
+    \item \textbf{Collaborative Development}: Decentralized frameworks enable diverse groups of contributors to participate in model development without requiring trust in a central authority.
+    
+    \item \textbf{Data Sovereignty}: Contributors maintain control over their data while still participating in collaborative model training.
+    
+    \item \textbf{Incentivization}: Blockchain-based systems can incorporate reward mechanisms for valuable contributions, potentially improving data quality and model performance.
+    
+    \item \textbf{Auditable AI}: Regulatory compliance and ethical AI development benefit from the immutable record of training data and model updates.
+    
+    \item \textbf{Democratization of AI}: Public access to models deployed on blockchain can reduce barriers to AI adoption.
+\end{enumerate}
+
+These benefits are particularly relevant as concerns about AI transparency, bias, and centralization continue to grow in both academic and public discourse.
+
+\section{Novelty of the Research Problem}
+This research differs from existing work in several important ways:
+
+\begin{enumerate}
+    \item \textbf{Accessibility Focus}: While most research focuses on theoretical frameworks or highly specialized implementations, this project creates an accessible implementation that clearly demonstrates core concepts.
+    
+    \item \textbf{Practical Constraints}: The research directly addresses practical constraints of blockchain-ML integration through a working implementation, not just theoretical analysis.
+    
+    \item \textbf{Incremental Learning Emphasis}: The focus on incremental learning models specially adapted for blockchain constraints offers insights not prominent in existing literature.
+    
+    \item \textbf{Educational Approach}: The implementation is designed to serve as both a functional system and an educational resource, bridging the gap between theory and practice.
+    
+    \item \textbf{Trade-off Analysis}: The project provides concrete analysis of the trade-offs between decentralization, computational efficiency, and model performance.
+\end{enumerate}
+
+By focusing on practical implementation and accessibility, this research complements the more theoretical or specialized approaches in existing literature.
+
+\section{Need of the Project/Research Problem}
+Several factors underline the current need for this research:
+
+\begin{enumerate}
+    \item \textbf{Growing Demand for Trustworthy AI}: As AI systems increasingly impact daily life, the need for transparent and verifiable AI development processes is growing.
+    
+    \item \textbf{Data Privacy Concerns}: Traditional centralized ML approaches raise significant privacy concerns, which decentralized approaches can help address.
+    
+    \item \textbf{Lack of Accessible Implementations}: While theoretical research is abundant, practical implementations that demonstrate blockchain-ML integration remain scarce.
+    
+    \item \textbf{Educational Gap}: There is a significant gap in resources that help developers understand and implement blockchain-ML integration.
+    
+    \item \textbf{Need for Alternative ML Paradigms}: As centralized AI development concentrates power in large tech companies, alternative paradigms for collaborative, decentralized AI development are needed.
+\end{enumerate}
+
+\section{Technology Gap}
+Our analysis of current research and implementations reveals several important technology gaps:
+
+\begin{enumerate}
+    \item \textbf{Implementation Accessibility Gap}: While recent research has made significant advances in blockchain-based ML systems focusing on complex models and optimistic approaches, there remains a notable gap in accessible implementations that demonstrate the fundamental principles of blockchain-ML integration. Most existing solutions require specialized knowledge in both domains and substantial computational resources.
+    
+    \item \textbf{Practical Constraint Management}: Limited attention has been paid to practical approaches for managing blockchain constraints (storage cost, computational limitations) in ML model training.
+    
+    \item \textbf{Incremental Learning Focus}: Most blockchain-ML research focuses on federated learning or zero-knowledge proofs, with less attention to incremental learning approaches that may be more suitable for blockchain constraints.
+    
+    \item \textbf{Educational Resources}: There is a lack of resources that bridge theoretical knowledge with practical implementation.
+\end{enumerate}
+
+Our research addresses these gaps by:
+
+\begin{enumerate}
+    \item Providing a lightweight implementation that clearly demonstrates the core concepts
+    \item Using a simpler model (KNN classifier) appropriate for educational purposes and blockchain storage constraints
+    \item Creating a practical example of incremental learning on blockchain without requiring advanced cryptographic knowledge
+    \item Developing an accessible entry point for developers interested in blockchain-ML integration
+\end{enumerate}
+
+\section{Methodology}
+\subsection{System Architecture}
+
+The project follows a modular architecture with the following components:
+
+\begin{figure}[h]
+\centering
+\begin{dot2tex}[options=-tmath]
+digraph SystemArchitecture {
+    rankdir=TB;
+    node [shape=box, style=filled, fillcolor=lightskyblue, fontname=Arial];
+    edge [fontname=Arial];
+    
+    blockchain [label="Blockchain Core"];
+    block [label="Block Management"];
+    transaction [label="Transaction Processing"];
+    consensus [label="Consensus (PoW)"];
+    wallet [label="Wallet Management"];
+    networking [label="Networking"];
+    ml [label="ML Module\n(KNN Classifier)"];
+    crypto [label="Cryptography Utils"];
+    api [label="REST API"];
+    
+    blockchain -> block;
+    blockchain -> transaction;
+    blockchain -> consensus;
+    block -> transaction;
+    transaction -> wallet;
+    wallet -> crypto;
+    transaction -> crypto;
+    blockchain -> ml;
+    networking -> blockchain;
+    api -> blockchain;
+    api -> ml;
+}
+\end{dot2tex}
+\caption{System Architecture Diagram}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Model Training Flow}
+
+\begin{figure}[h]
+\centering
+\begin{dot2tex}[options=-tmath]
+digraph ModelTrainingFlow {
+    rankdir=LR;
+    node [shape=box, style=filled, fillcolor=lightgreen, fontname=Arial];
+    edge [fontname=Arial];
+    
+    create_data [label="Create Data\nTransaction"];
+    transaction [label="Transaction\nProcessing"];
+    mining [label="Block Mining"];
+    validation [label="Consensus\nValidation"];
+    model_update [label="KNN Model\nUpdate"];
+    
+    create_data -> transaction;
+    transaction -> mining;
+    mining -> validation;
+    validation -> model_update;
+    
+    // Add edge labels
+    edge [fontcolor=blue, fontsize=10];
+    create_data -> transaction [label="Feature Vector\n+ Label"];
+    transaction -> mining [label="Pending\nTransaction"];
+    mining -> validation [label="New\nBlock"];
+    validation -> model_update [label="Validated\nData Point"];
+}
+\end{dot2tex}
+\caption{Model Training Flow Diagram}
+\label{fig:model_training_flow}
+\end{figure}
+
+\subsection{Transaction Types}
+
+\begin{figure}[h]
+\centering
+\begin{dot2tex}[options=-tmath]
+digraph TransactionTypes {
+    node [shape=box, style=filled, fillcolor=lightblue, fontname=Arial];
+    edge [fontname=Arial];
+    
+    root [label="Transaction", shape=ellipse, fillcolor=lightgrey];
+    
+    model_init [label="Model Initialization\nTransaction"];
+    data_add [label="Data Addition\nTransaction"];
+    model_update [label="Model Update\nTransaction"];
+    standard [label="Standard Value\nTransaction"];
+    
+    root -> model_init;
+    root -> data_add;
+    root -> model_update;
+    root -> standard;
+    
+    // Add descriptions
+    model_init -> model_init_desc [arrowhead=none, style=dashed];
+    model_init_desc [shape=note, fillcolor=lightyellow, label="Initial KNN parameters\nand hyperparameters"];
+    
+    data_add -> data_add_desc [arrowhead=none, style=dashed];
+    data_add_desc [shape=note, fillcolor=lightyellow, label="New feature vectors\nand labels for training"];
+    
+    model_update -> model_update_desc [arrowhead=none, style=dashed];
+    model_update_desc [shape=note, fillcolor=lightyellow, label="Updated model state\nafter new data"];
+    
+    standard -> standard_desc [arrowhead=none, style=dashed];
+    standard_desc [shape=note, fillcolor=lightyellow, label="Regular currency\ntransactions"];
+}
+\end{dot2tex}
+\caption{Transaction Types Diagram}
+\label{fig:transaction_types}
+\end{figure}
+
+\subsection{Comparison of Traditional ML and Blockchain-based ML}
+
+\begin{figure}[h]
+\centering
+\begin{dot2tex}[options=-tmath]
+digraph MLComparison {
+    rankdir=TB;
+    compound=true;
+    node [shape=box, style=filled, fontname=Arial];
+    
+    subgraph cluster_traditional {
+        label="Traditional ML";
+        style=filled;
+        color=lightgrey;
+        fontsize=16;
+        
+        tdata [label="Centralized\nData Storage", fillcolor=lightsalmon];
+        ttraining [label="Centralized\nTraining", fillcolor=lightsalmon];
+        tmodel [label="Black Box\nModel", fillcolor=lightsalmon];
+        tdeployment [label="Centralized\nDeployment", fillcolor=lightsalmon];
+        
+        tdata -> ttraining -> tmodel -> tdeployment;
+    }
+    
+    subgraph cluster_blockchain {
+        label="Blockchain-based ML";
+        style=filled;
+        color=lightgrey;
+        fontsize=16;
+        
+        bdata [label="Distributed\nData Contributions", fillcolor=lightgreen];
+        btraining [label="Transparent\nTraining Process", fillcolor=lightgreen];
+        bmodel [label="Verifiable\nModel Updates", fillcolor=lightgreen];
+        bdeployment [label="Decentralized\nAccess", fillcolor=lightgreen];
+        
+        bdata -> btraining -> bmodel -> bdeployment;
+    }
+    
+    // Add comparison points
+    edge [style=dashed, color=blue, fontcolor=blue];
+    tdata -> bdata [label="Data Sovereignty"];
+    ttraining -> btraining [label="Transparency"];
+    tmodel -> bmodel [label="Auditability"];
+    tdeployment -> bdeployment [label="Accessibility"];
+}
+\end{dot2tex}
+\caption{Comparison of Traditional ML and Blockchain-based ML}
+\label{fig:ml_comparison}
+\end{figure}
+
+\subsection{Implementation Process}
+
+The implementation follows these key steps:
+
+\begin{enumerate}
+    \item \textbf{Blockchain Core Development}: Implementation of the foundational blockchain structure with blocks, transactions, and consensus mechanisms.
+    
+    \item \textbf{ML Model Integration}: Integration of a KNN classifier that can be incrementally updated with new data points added to the blockchain.
+    
+    \item \textbf{API Development}: Creation of RESTful APIs to interact with both blockchain and ML functionality.
+    
+    \item \textbf{Testing and Validation}: Comprehensive testing of both blockchain functionality and ML model performance.
+    
+    \item \textbf{Performance Analysis}: Analysis of system performance, including blockchain storage requirements, computational costs, and ML model accuracy.
+\end{enumerate}
+
+\subsection{Machine Learning Approach}
+
+The ML component uses a KNN classifier with the following characteristics:
+
+\begin{itemize}
+    \item Initially trained on the scikit-learn Iris dataset
+    \item Supports incremental learning as new data points are added via transactions
+    \item Model state is stored in the blockchain itself, ensuring transparency and immutability
+    \item Features a prediction API that uses the latest model state from the blockchain
+\end{itemize}
+
+This approach follows the suggestion from Microsoft's research paper that models capable of efficiently updating with one sample are ideal for blockchain integration to lower transaction costs.
+
+\subsection{Evaluation Metrics}
+
+The system will be evaluated based on:
+
+\begin{itemize}
+    \item ML model accuracy and improvement with additional training data
+    \item Blockchain storage efficiency
+    \item Computational cost of model updates
+    \item System scalability as the blockchain grows
+    \item Transparency and verifiability of the model training process
+\end{itemize}
+
+\section{Final Summary}
+This research develops an accessible implementation of blockchain-based machine learning that demonstrates key concepts in a practical manner. By focusing on an incremental learning approach with a KNN classifier, the project addresses the practical constraints of blockchain systems while providing transparency and collaborative capabilities.
+
+The implementation serves both as a functional system and an educational resource, helping to bridge the gap between theoretical research and practical application in the emerging field of decentralized AI. By addressing identified technology gaps and providing concrete analysis of trade-offs, this research contributes to the advancement of blockchain-ML integration and helps make these technologies more accessible to a wider audience of developers and researchers.
+
+As concerns about AI transparency, trust, and centralization continue to grow, blockchain-based approaches offer promising solutions that this research helps make more practical and understandable. Future work could extend this foundation to incorporate more advanced ML models, additional privacy-preserving techniques, and enhanced incentive mechanisms.
+
+\section{Resources and Contact Information}
+This implementation is available as an open-source project with the following resources:
+
+\begin{itemize}
+    \item \textbf{GitHub Repository}: \url{https://github.com/Pratham-Jain-3903/ai_selfhosted_blockchain_consensus.git}
+    \item \textbf{Postman Workspace}: \url{https://www.postman.com/luminouschatbotdevteam/workspace/cs21b1021-blockchain-consensus-testing/collection/41342955-0494f37a-cc20-4753-978d-6ee6d64a4209?action=share&creator=41342955}
+    \item \textbf{Contact Email}: \href{mailto:Prathamjain3903@gmail.com}{Prathamjain3903@gmail.com}
+\end{itemize}
+
+For questions, collaboration opportunities, or access to additional resources related to this project, please use the contact information above.
+
+\end{document}

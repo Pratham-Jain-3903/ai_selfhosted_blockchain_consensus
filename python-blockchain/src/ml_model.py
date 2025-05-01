@@ -3,17 +3,34 @@ import pickle
 import base64
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import load_iris
 
 class IrisModel:
     """A simple ML model for Iris flower classification"""
     
     def __init__(self):
-        """Initialize a new model or load existing one"""
+        """Initialize a new model with scikit-learn's Iris dataset"""
         self.model = KNeighborsClassifier(n_neighbors=3)
         self.scaler = StandardScaler()
         self.classes = ['setosa', 'versicolor', 'virginica']
-        self.is_trained = False
-        self.data_count = 0
+        
+        # Load scikit-learn's Iris dataset
+        try:
+            iris = load_iris()
+            self.X = iris.data.tolist()  # Convert to list for easier serialization
+            self.y = iris.target.tolist()  # Indices 0, 1, 2 matching our class names
+            
+            # Train model with scikit-learn data
+            self._train_model()
+            self.is_trained = True
+            self.data_count = len(self.X)
+            print(f"Model initialized with {self.data_count} samples from scikit-learn")
+        except Exception as e:
+            print(f"Could not load Iris dataset: {e}")
+            self.X = []
+            self.y = []
+            self.is_trained = False
+            self.data_count = 0
         
     def add_data_point(self, features, label):
         """
@@ -33,15 +50,9 @@ class IrisModel:
         if label_idx == -1:
             return False
         
-        # If first data point, just store it
-        if not self.is_trained:
-            self.X = [features]
-            self.y = [label_idx]
-            self.is_trained = True
-        else:
-            # Otherwise add to existing data and retrain
-            self.X.append(features)
-            self.y.append(label_idx)
+        # Add to existing data and retrain
+        self.X.append(features)
+        self.y.append(label_idx)
             
         # Retrain model with all data
         self._train_model()
