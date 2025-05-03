@@ -112,5 +112,11 @@ def model_info():
     }
     return jsonify(response), 200
 
+@app.route('/model/evaluate', methods=['GET'])
+def evaluate_model():
+    """Evaluate the current model accuracy using test data"""
+    evaluation_results = blockchain.ml_model.evaluate_model()
+    return jsonify(evaluation_results), 200
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

@@ -4,6 +4,8 @@ import base64
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, classification_report
 
 class IrisModel:
     """A simple ML model for Iris flower classification"""
@@ -17,18 +19,29 @@ class IrisModel:
         # Load scikit-learn's Iris dataset
         try:
             iris = load_iris()
-            self.X = iris.data.tolist()  # Convert to list for easier serialization
-            self.y = iris.target.tolist()  # Indices 0, 1, 2 matching our class names
+            # Split data into training (80%) and test (20%) sets
+            X_train, X_test, y_train, y_test = train_test_split(
+                iris.data, iris.target, test_size=0.2, random_state=42
+            )
+            
+            self.X = X_train.tolist()  # Convert to list for easier serialization
+            self.y = y_train.tolist()  # Indices 0, 1, 2 matching our class names
+            
+            # Save test data separately - won't be used for training
+            self.X_test = X_test.tolist()
+            self.y_test = y_test.tolist()
             
             # Train model with scikit-learn data
             self._train_model()
             self.is_trained = True
             self.data_count = len(self.X)
-            print(f"Model initialized with {self.data_count} samples from scikit-learn")
+            print(f"Model initialized with {self.data_count} samples for training and {len(self.X_test)} samples for testing")
         except Exception as e:
             print(f"Could not load Iris dataset: {e}")
             self.X = []
             self.y = []
+            self.X_test = []
+            self.y_test = []
             self.is_trained = False
             self.data_count = 0
         
@@ -58,6 +71,41 @@ class IrisModel:
         self._train_model()
         self.data_count += 1
         return True
+        
+    def evaluate_model(self):
+        """
+        Evaluate the current model performance on the test dataset
+        
+        Returns:
+            dict: Evaluation metrics including accuracy and per-class metrics
+        """
+        if not self.is_trained or not self.X_test:
+            return {"error": "Model not trained or no test data available"}
+            
+        # Scale test features using the same scaler used for training
+        X_test_scaled = self.scaler.transform(self.X_test)
+        
+        # Make predictions
+        y_pred = self.model.predict(X_test_scaled)
+        
+        # Calculate accuracy
+        accuracy = accuracy_score(self.y_test, y_pred)
+        
+        # Get detailed classification report
+        report = classification_report(
+            self.y_test, 
+            y_pred, 
+            target_names=self.classes,
+            output_dict=True
+        )
+        
+        # Return metrics
+        return {
+            "accuracy": float(accuracy),
+            "data_points_trained": self.data_count,
+            "test_samples": len(self.X_test),
+            "class_metrics": report
+        }
         
     def predict(self, features):
         """Predict flower type from features"""
@@ -128,12 +176,16 @@ class IrisModel:
             scaler_bytes = pickle.dumps(self.scaler)
             x_bytes = pickle.dumps(self.X)
             y_bytes = pickle.dumps(self.y)
+            x_test_bytes = pickle.dumps(self.X_test)
+            y_test_bytes = pickle.dumps(self.y_test)
             
             model_data.update({
                 "model": base64.b64encode(model_bytes).decode('utf-8'),
                 "scaler": base64.b64encode(scaler_bytes).decode('utf-8'),
                 "X": base64.b64encode(x_bytes).decode('utf-8'),
-                "y": base64.b64encode(y_bytes).decode('utf-8')
+                "y": base64.b64encode(y_bytes).decode('utf-8'),
+                "X_test": base64.b64encode(x_test_bytes).decode('utf-8'),
+                "y_test": base64.b64encode(y_test_bytes).decode('utf-8')
             })
             
         return json.dumps(model_data)
@@ -158,6 +210,13 @@ class IrisModel:
                 model_obj.scaler = pickle.loads(scaler_bytes)
                 model_obj.X = pickle.loads(x_bytes)
                 model_obj.y = pickle.loads(y_bytes)
+                
+                # Load test data if available
+                if "X_test" in model_data and "y_test" in model_data:
+                    x_test_bytes = base64.b64decode(model_data["X_test"])
+                    y_test_bytes = base64.b64decode(model_data["y_test"])
+                    model_obj.X_test = pickle.loads(x_test_bytes)
+                    model_obj.y_test = pickle.loads(y_test_bytes)
                 
             return model_obj
         except Exception as e:

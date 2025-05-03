@@ -112,3 +112,7 @@ class Blockchain:
     def load_model(self, serialized_model):
         """Load a serialized ML model"""
         self.ml_model = IrisModel.deserialize(serialized_model)
+        
+    def evaluate_model(self):
+        """Evaluate the current ML model performance"""
+        return self.ml_model.evaluate_model()
