@@ -1,0 +1,176 @@
+{
+	"id": "83e86a4a-8c1b-4a3c-aa31-855124df92ef",
+	"name": "prediction_endpoints",
+	"timestamp": "2025-05-03T15:02:51.035Z",
+	"collection_id": "41342955-0494f37a-cc20-4753-978d-6ee6d64a4209",
+	"folder_id": 0,
+	"environment_id": "0",
+	"totalPass": 0,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-03T15:02:50.085Z",
+	"totalFail": 0,
+	"results": [
+		{
+			"id": "f4dae727-b67b-493d-b53e-8ca211b07768",
+			"name": "{{base_url}}/mine",
+			"url": "http://localhost:5000/mine",
+			"time": 239,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				239
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "e64b3cec-b120-4988-a803-9dfc1fd8dbe6",
+			"name": "{{base_url}}/transactions/new",
+			"url": "http://localhost:5000/transactions/new",
+			"time": 9,
+			"responseCode": {
+				"code": 201,
+				"name": "CREATED"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				9
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "a5a591e0-0a20-40d0-a457-38a516f7c129",
+			"name": "{{base_url}}/chain",
+			"url": "http://localhost:5000/chain",
+			"time": 6,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				6
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "25cf779a-0d09-4142-9438-920f27c4c627",
+			"name": "{{base_url}}/flower/add",
+			"url": "http://localhost:5000/flower/add",
+			"time": 13,
+			"responseCode": {
+				"code": 201,
+				"name": "CREATED"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				13
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "ec4fd457-1885-4c92-9c60-e1fee8f29231",
+			"name": "{{base_url}}/flower/predict",
+			"url": "http://localhost:5000/flower/predict",
+			"time": 17,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				17
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "06c1c72b-b256-4f9d-bd78-1d6d332fd738",
+			"name": "{{base_url}}/model/info",
+			"url": "http://localhost:5000/model/info",
+			"time": 5,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				5
+			],
+			"allTests": [
+				{}
+			]
+		},
+		{
+			"id": "c14c9e91-29d7-495a-b4d8-81b62002836b",
+			"name": "{{base_url}}/model/evaluate",
+			"url": "http://localhost:5000/model/evaluate",
+			"time": 16,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {},
+			"testPassFailCounts": {},
+			"times": [
+				16
+			],
+			"allTests": [
+				{}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 305,
+	"collection": {
+		"requests": [
+			{
+				"id": "f4dae727-b67b-493d-b53e-8ca211b07768",
+				"method": "GET"
+			},
+			{
+				"id": "e64b3cec-b120-4988-a803-9dfc1fd8dbe6",
+				"method": "POST"
+			},
+			{
+				"id": "a5a591e0-0a20-40d0-a457-38a516f7c129",
+				"method": "GET"
+			},
+			{
+				"id": "25cf779a-0d09-4142-9438-920f27c4c627",
+				"method": "POST"
+			},
+			{
+				"id": "ec4fd457-1885-4c92-9c60-e1fee8f29231",
+				"method": "POST"
+			},
+			{
+				"id": "06c1c72b-b256-4f9d-bd78-1d6d332fd738",
+				"method": "GET"
+			},
+			{
+				"id": "c14c9e91-29d7-495a-b4d8-81b62002836b",
+				"method": "GET"
+			}
+		]
+	}
+}

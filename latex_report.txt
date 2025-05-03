@@ -1,25 +1,30 @@
-% filepath: d:\College\web3_blockchain\research_proposal.tex
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{listings}
+\lstset{
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},
+  stringstyle=\color{red},
+  commentstyle=\color{green!60!black},
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt
+}
 \usepackage{xcolor}
 \usepackage{float}
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning,backgrounds,fit}
-\definecolor{lightskyblue}{RGB}{135,206,250}
-\definecolor{lightgreen}{RGB}{144,238,144}
-\definecolor{lightyellow}{RGB}{255,255,224}
-\definecolor{lightsalmon}{RGB}{255,160,122}
-\colorlet{block}{blue!30}
-\colorlet{line}{blue!50!black}
+\usepackage{caption}
+\usepackage{subcaption}
 
-\title{Blockchain-Based Machine Learning Integration: A Framework for Collaborative and Transparent Model Training}
+
+\title{Blockchain is all you need : Enhancing AI Security Through Blockchain for Tamper-Resistant Collaborative Machine Learning}
 \author{Pratham Jain \\ \href{mailto:Prathamjain3903@gmail.com}{Prathamjain3903@gmail.com}}
 \date{\today}
+
+\usepackage{hyperref}
 
 \begin{document}
 
@@ -146,164 +151,78 @@ Our research addresses these gaps by:
 \section{Methodology}
 \subsection{System Architecture}
 
-The project follows a modular architecture with the following components:
-
-\begin{figure}[h]
-\centering
-\begin{dot2tex}[options=-tmath]
-digraph SystemArchitecture {
-    rankdir=TB;
-    node [shape=box, style=filled, fillcolor=lightskyblue, fontname=Arial];
-    edge [fontname=Arial];
-    
-    blockchain [label="Blockchain Core"];
-    block [label="Block Management"];
-    transaction [label="Transaction Processing"];
-    consensus [label="Consensus (PoW)"];
-    wallet [label="Wallet Management"];
-    networking [label="Networking"];
-    ml [label="ML Module\n(KNN Classifier)"];
-    crypto [label="Cryptography Utils"];
-    api [label="REST API"];
-    
-    blockchain -> block;
-    blockchain -> transaction;
-    blockchain -> consensus;
-    block -> transaction;
-    transaction -> wallet;
-    wallet -> crypto;
-    transaction -> crypto;
-    blockchain -> ml;
-    networking -> blockchain;
-    api -> blockchain;
-    api -> ml;
-}
-\end{dot2tex}
-\caption{System Architecture Diagram}
-\label{fig:architecture}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{architecture.png}
+    \caption{System Architecture Diagram}
+   \label{fig:architecture}
 \end{figure}
+
+The system architecture shown in Figure~\ref{fig:architecture} illustrates the integration of machine learning capabilities with blockchain technology. At the core, the blockchain component (left) provides the foundation for decentralized storage, verification, and consensus. This includes modules for block management, transaction processing, and a Proof-of-Work consensus mechanism.
+
+The ML module (right) contains the KNN classifier implementation that operates on data stored within the blockchain. The REST API serves as the interface between users and the system, allowing for data contributions, model training triggers, and prediction requests. Cryptography utilities ensure secure transactions and data integrity, while the networking component enables node-to-node communication across the distributed network.
+
+This architecture enables transparent, verifiable machine learning by ensuring all model updates are recorded immutably in the blockchain, providing a complete audit trail of the model's development.
 
 \subsection{Model Training Flow}
 
-\begin{figure}[h]
-\centering
-\begin{dot2tex}[options=-tmath]
-digraph ModelTrainingFlow {
-    rankdir=LR;
-    node [shape=box, style=filled, fillcolor=lightgreen, fontname=Arial];
-    edge [fontname=Arial];
-    
-    create_data [label="Create Data\nTransaction"];
-    transaction [label="Transaction\nProcessing"];
-    mining [label="Block Mining"];
-    validation [label="Consensus\nValidation"];
-    model_update [label="KNN Model\nUpdate"];
-    
-    create_data -> transaction;
-    transaction -> mining;
-    mining -> validation;
-    validation -> model_update;
-    
-    // Add edge labels
-    edge [fontcolor=blue, fontsize=10];
-    create_data -> transaction [label="Feature Vector\n+ Label"];
-    transaction -> mining [label="Pending\nTransaction"];
-    mining -> validation [label="New\nBlock"];
-    validation -> model_update [label="Validated\nData Point"];
-}
-\end{dot2tex}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{training_flow.png}
 \caption{Model Training Flow Diagram}
 \label{fig:model_training_flow}
 \end{figure}
 
-\subsection{Transaction Types}
+The Model Training Flow, depicted in Figure~\ref{fig:model_training_flow}, illustrates the process through which new data contributes to model improvement. The flow begins with data contribution, where users submit feature vectors and corresponding labels through a data transaction. These transactions are processed and added to the pending transaction pool.
 
-\begin{figure}[h]
-\centering
-\begin{dot2tex}[options=-tmath]
-digraph TransactionTypes {
-    node [shape=box, style=filled, fillcolor=lightblue, fontname=Arial];
-    edge [fontname=Arial];
-    
-    root [label="Transaction", shape=ellipse, fillcolor=lightgrey];
-    
-    model_init [label="Model Initialization\nTransaction"];
-    data_add [label="Data Addition\nTransaction"];
-    model_update [label="Model Update\nTransaction"];
-    standard [label="Standard Value\nTransaction"];
-    
-    root -> model_init;
-    root -> data_add;
-    root -> model_update;
-    root -> standard;
-    
-    // Add descriptions
-    model_init -> model_init_desc [arrowhead=none, style=dashed];
-    model_init_desc [shape=note, fillcolor=lightyellow, label="Initial KNN parameters\nand hyperparameters"];
-    
-    data_add -> data_add_desc [arrowhead=none, style=dashed];
-    data_add_desc [shape=note, fillcolor=lightyellow, label="New feature vectors\nand labels for training"];
-    
-    model_update -> model_update_desc [arrowhead=none, style=dashed];
-    model_update_desc [shape=note, fillcolor=lightyellow, label="Updated model state\nafter new data"];
-    
-    standard -> standard_desc [arrowhead=none, style=dashed];
-    standard_desc [shape=note, fillcolor=lightyellow, label="Regular currency\ntransactions"];
-}
-\end{dot2tex}
-\caption{Transaction Types Diagram}
-\label{fig:transaction_types}
+Once included in a block through the mining process, these transactions undergo consensus validation to ensure legitimacy. After validation, the system extracts the new data point and updates the KNN model incrementally. This approach allows the model to evolve with each new valid data contribution without requiring complete retraining.
+
+The incremental nature of this training flow is particularly well-suited for blockchain environments, as it minimizes computational overhead while maintaining a verifiable record of each model update. Every step in this flow is recorded on the blockchain, ensuring full transparency in the model training process.
+
+\subsection{Transaction Types}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{transaction_types.png}
+ \caption{Transaction Types Diagram}
+ \label{fig:transaction_types}
 \end{figure}
+
+The blockchain implementation supports four distinct transaction types as illustrated in Figure~\ref{fig:transaction_types}, each serving a specific purpose in the machine learning integration:
+
+\begin{enumerate}
+    \item \textbf{Model Initialization Transactions} establish the initial KNN model on the blockchain, including hyperparameters such as the number of neighbors (k) and distance metric. These transactions occur once at the beginning of model deployment or when fundamental model parameters require modification.
+    
+    \item \textbf{Data Addition Transactions} contain new feature vectors and corresponding labels that contributors want to add to the training dataset. These transactions represent the primary mechanism for collaborative dataset building.
+    
+    \item \textbf{Model Update Transactions} record changes to the model state after incorporating new data points. These transactions ensure that all nodes maintain consistent model states and provide an immutable record of the model's evolution.
+    
+    \item \textbf{Standard Value Transactions} handle token transfers between users for traditional blockchain functionality, potentially including incentive mechanisms for valuable data contributions.
+\end{enumerate}
+
+This transaction type system enables fine-grained control over model development while maintaining blockchain's core properties of immutability and transparency. Each transaction type follows specific validation rules appropriate for its purpose, ensuring system integrity.
 
 \subsection{Comparison of Traditional ML and Blockchain-based ML}
 
-\begin{figure}[h]
-\centering
-\begin{dot2tex}[options=-tmath]
-digraph MLComparison {
-    rankdir=TB;
-    compound=true;
-    node [shape=box, style=filled, fontname=Arial];
-    
-    subgraph cluster_traditional {
-        label="Traditional ML";
-        style=filled;
-        color=lightgrey;
-        fontsize=16;
-        
-        tdata [label="Centralized\nData Storage", fillcolor=lightsalmon];
-        ttraining [label="Centralized\nTraining", fillcolor=lightsalmon];
-        tmodel [label="Black Box\nModel", fillcolor=lightsalmon];
-        tdeployment [label="Centralized\nDeployment", fillcolor=lightsalmon];
-        
-        tdata -> ttraining -> tmodel -> tdeployment;
-    }
-    
-    subgraph cluster_blockchain {
-        label="Blockchain-based ML";
-        style=filled;
-        color=lightgrey;
-        fontsize=16;
-        
-        bdata [label="Distributed\nData Contributions", fillcolor=lightgreen];
-        btraining [label="Transparent\nTraining Process", fillcolor=lightgreen];
-        bmodel [label="Verifiable\nModel Updates", fillcolor=lightgreen];
-        bdeployment [label="Decentralized\nAccess", fillcolor=lightgreen];
-        
-        bdata -> btraining -> bmodel -> bdeployment;
-    }
-    
-    // Add comparison points
-    edge [style=dashed, color=blue, fontcolor=blue];
-    tdata -> bdata [label="Data Sovereignty"];
-    ttraining -> btraining [label="Transparency"];
-    tmodel -> bmodel [label="Auditability"];
-    tdeployment -> bdeployment [label="Accessibility"];
-}
-\end{dot2tex}
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{traditional_vs_blockchain.png}
 \caption{Comparison of Traditional ML and Blockchain-based ML}
 \label{fig:ml_comparison}
 \end{figure}
+
+Figure~\ref{fig:ml_comparison} illustrates the fundamental differences between traditional machine learning approaches and our blockchain-based implementation. The comparison focuses on four key aspects of the ML workflow:
+
+\begin{itemize}
+    \item \textbf{Data Management}: Traditional ML typically relies on centralized data storage controlled by a single entity, leading to potential issues with data access and control. In contrast, our blockchain approach enables distributed data contributions where contributors maintain sovereignty over their data while still participating in the collaborative training process.
+    
+    \item \textbf{Training Process}: Centralized training in traditional systems creates a "black box" where the evolution of the model remains hidden. The blockchain-based approach provides complete transparency in the training process, with each step recorded immutably in the blockchain.
+    
+    \item \textbf{Model Updates}: In traditional ML, model updates are opaque and difficult to verify. Our implementation records each incremental update on the blockchain, making every change to the model fully auditable and verifiable by all participants.
+    
+    \item \textbf{Deployment}: Traditional ML deployments are centrally controlled and may limit access. The blockchain-based system enables decentralized access to the model, democratizing AI capabilities while maintaining security through cryptographic mechanisms.
+\end{itemize}
+
+These differences highlight how our blockchain-based approach addresses key challenges in AI transparency, trust, and collaboration without sacrificing model performance or usability.
 
 \subsection{Implementation Process}
 
@@ -321,6 +240,67 @@ The implementation follows these key steps:
     \item \textbf{Performance Analysis}: Analysis of system performance, including blockchain storage requirements, computational costs, and ML model accuracy.
 \end{enumerate}
 
+\subsection{API Endpoints Implementation}
+
+The system implements several key API endpoints to enable interaction with both the blockchain and machine learning components:
+
+\begin{enumerate}
+    \item \textbf{/mine} (GET): Triggers the mining process to create new blocks, processing any pending transactions including data additions.
+    
+    \item \textbf{/transactions/new} (POST): Creates a new standard value transaction between blockchain participants.
+    
+    \item \textbf{/chain} (GET): Returns the complete blockchain for verification and auditing purposes.
+    
+    \item \textbf{/flower/add} (POST): Creates a special transaction containing Iris flower data (features and label) to be added to the training dataset.
+    
+    \item \textbf{/flower/predict} (POST): Uses the current model state to predict the flower type from provided features.
+    
+    \item \textbf{/model/info} (GET): Returns information about the current model state, including training data size.
+    
+    \item \textbf{/model/evaluate} (GET): Evaluates the current model performance using held-out test data, tracking how accuracy evolves as new data points are added through blockchain transactions.
+\end{enumerate}
+
+Each endpoint was implemented with proper error handling and validation to ensure system integrity. As shown in the Postman test results, all endpoints respond with appropriate status codes (200 OK for GET requests and 201 CREATED for POST requests) and maintain response times under 250ms even for computationally intensive operations like mining.
+
+\subsection{Model Evaluation and Performance Tracking}
+
+A critical component of the implementation is the model evaluation system that tracks performance metrics as new data is added through blockchain transactions. The \textbf{/model/evaluate} endpoint specifically:
+
+\begin{itemize}
+    \item Maintains a consistent test dataset separate from the training data
+    \item Tracks the number of data points the model has been trained on (\texttt{data\_count})
+    \item Calculates accuracy and detailed classification metrics after each model update
+    \item Reports per-class precision, recall, and F1 scores
+\end{itemize}
+
+The implementation ensures that with each new flower data transaction added to a mined block:
+\begin{enumerate}
+    \item The \texttt{data\_count} is automatically incremented
+    \item The model is retrained incrementally with the new data point
+    \item All updates are serialized and stored on the blockchain
+\end{enumerate}
+
+This creates a transparent record of model evolution over time, with each contribution traceable to specific blocks and transactions. The evaluation metrics provide objective evidence of how collaborative data contributions affect model performance.
+
+\subsection{Serialization and Persistence}
+
+To ensure model states can be properly stored on the blockchain and reconstructed by any node, we implemented custom serialization and deserialization methods:
+
+\begin{itemize}
+    \item Model objects (including the KNN classifier and scaler) are pickled and converted to base64 encoded strings
+    \item Training data and test data are similarly serialized for storage
+    \item The \texttt{deserialize} method reconstructs the model from blockchain data
+\end{itemize}
+
+This approach ensures that:
+\begin{enumerate}
+    \item The entire model state, including the training data and scaler parameters, is preserved
+    \item Any node can reproduce identical predictions from the model state
+    \item The training history remains verifiable through blockchain records
+\end{enumerate}
+
+The implementation follows principles outlined in the Harris and Waggoner paper (2019) regarding model storage on blockchain while addressing practical storage constraints.
+
 \subsection{Machine Learning Approach}
 
 The ML component uses a KNN classifier with the following characteristics:
@@ -332,11 +312,36 @@ The ML component uses a KNN classifier with the following characteristics:
     \item Features a prediction API that uses the latest model state from the blockchain
 \end{itemize}
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{inference_workflow.png}
+    \caption{inference workflow}
+    \label{fig:inference_workflow}
+\end{figure}
+
 This approach follows the suggestion from Microsoft's research paper that models capable of efficiently updating with one sample are ideal for blockchain integration to lower transaction costs.
+
+\subsection{Performance Results}
+
+The Postman test results demonstrate the system's performance characteristics:
+
+\begin{itemize}
+    \item \textbf{Mining endpoint}: 239ms average response time
+    \item \textbf{Transaction creation}: 9ms average response time
+    \item \textbf{Chain retrieval}: 6ms average response time
+    \item \textbf{Flower data addition}: 13ms average response time
+    \item \textbf{Prediction}: 17ms average response time
+    \item \textbf{Model info}: 5ms average response time
+    \item \textbf{Model evaluation}: 16ms average response time
+\end{itemize}
+
+These results indicate that the system maintains efficient performance even for computationally intensive operations. The quick response times for the model evaluation endpoint (16ms) demonstrate that tracking model performance as the blockchain grows remains efficient and practical.
+
+The system successfully maintains the relationship between blockchain transactions and model performance metrics, allowing participants to observe how their data contributions affect model accuracy in real-time. As new transactions containing flower data are mined into blocks, the \texttt{data\_points\_trained} count increases accordingly, providing transparency into the collaborative training process.
 
 \subsection{Evaluation Metrics}
 
-The system will be evaluated based on:
+The system is evaluated based on:
 
 \begin{itemize}
     \item ML model accuracy and improvement with additional training data
@@ -361,6 +366,15 @@ This implementation is available as an open-source project with the following re
     \item \textbf{Postman Workspace}: \url{https://www.postman.com/luminouschatbotdevteam/workspace/cs21b1021-blockchain-consensus-testing/collection/41342955-0494f37a-cc20-4753-978d-6ee6d64a4209?action=share&creator=41342955}
     \item \textbf{Contact Email}: \href{mailto:Prathamjain3903@gmail.com}{Prathamjain3903@gmail.com}
 \end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{postman_workspace.png}
+    \caption{postman workspace}
+    \label{fig:postman_workspace}
+\end{figure}
+
+% \includegraphics[width=1\linewidth]{postman_workspace.png}
 
 For questions, collaboration opportunities, or access to additional resources related to this project, please use the contact information above.
 

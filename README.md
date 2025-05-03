@@ -2,6 +2,9 @@
 
 This project is a simple implementation of a blockchain in Python with integrated machine learning capabilities. It includes the core components necessary to create a blockchain, manage transactions, implement a consensus algorithm, and train a machine learning model on blockchain data.
 
+<img width="644" alt="Screenshot 2025-05-01 122731" src="https://github.com/user-attachments/assets/e7f82263-c0eb-4676-b82b-a0f2becde4d0" />
+
+
 ## Research Inspiration
 
 This project was inspired by several research papers and blog posts:
@@ -96,6 +99,9 @@ python-blockchain
 5. **Free Public Access**: Anyone can use the model for inference without cost
 6. **Collaborative Training**: Model improves from contributions of many participants
 
+   <img width="278" alt="traditional_vs_blockchain" src="https://github.com/user-attachments/assets/89089e4c-ea1a-4a95-bcb0-657425fbdcdc" />
+
+
 ### Cons
 1. **Storage Limitations**: As noted in Microsoft's research, blockchain storage is expensive, making complex models like deep neural networks impractical
 2. **Computational Cost**: On-chain computations (like model training) can be expensive
@@ -125,6 +131,9 @@ python-blockchain
 ## Usage Examples
 
 ### Standard Blockchain Operations
+
+<img width="813" alt="transaction_types" src="https://github.com/user-attachments/assets/12d9abdf-08e4-411a-b4dd-20aae1534977" />
+
 
 #### Creating a Transaction
 
@@ -197,6 +206,9 @@ curl -X POST -H "Content-Type: application/json" -d '{
 }' http://localhost:5000/flower/add
 ```
 
+
+<img width="749" alt="training_flow" src="https://github.com/user-attachments/assets/5f2774e0-c18a-4375-9f7d-b24210abe077" />
+
 Using Python requests:
 ```python
 import requests
@@ -215,6 +227,66 @@ response = requests.post("http://localhost:5000/flower/add",
 print(response.json())
 ```
 
+#### Evaluating Model Performance
+
+The system allows tracking how model accuracy evolves as new training data is added through the blockchain. This enables participants to see how their contributions impact model performance.
+
+Using curl:
+```bash
+curl -X GET http://localhost:5000/model/evaluate
+```
+
+Using Python requests:
+```python
+import requests
+response = requests.get("http://localhost:5000/model/evaluate")
+print(response.json())
+```
+
+Example response:
+```json
+{
+  "accuracy": 0.9666666666666667,
+  "data_points_trained": 120,
+  "test_samples": 30,
+  "class_metrics": {
+    "setosa": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 10
+    },
+    "versicolor": {
+      "precision": 0.9090909090909091,
+      "recall": 1.0,
+      "f1-score": 0.9523809523809523,
+      "support": 10
+    },
+    "virginica": {
+      "precision": 1.0,
+      "recall": 0.9,
+      "f1-score": 0.9473684210526316,
+      "support": 10
+    },
+    "accuracy": 0.9666666666666667,
+    "macro avg": {
+      "precision": 0.9696969696969697,
+      "recall": 0.9666666666666667,
+      "f1-score": 0.9665831244778947,
+      "support": 30
+    },
+    "weighted avg": {
+      "precision": 0.9696969696969697,
+      "recall": 0.9666666666666667,
+      "f1-score": 0.9665831244778947,
+      "support": 30
+    }
+  }
+}
+```
+
+The `data_points_trained` field indicates how many examples have been used to train the model so far, which increases as new data points are added through blockchain transactions.
+
 #### Predicting Flower Type
 
 Using curl:
@@ -225,7 +297,9 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "petal_length": 6.0,
     "petal_width": 2.5
 }' http://localhost:5000/flower/predict
+
 ```
+<img width="824" alt="inference_workflow" src="https://github.com/user-attachments/assets/8813007b-f658-45d9-8592-0239962bf033" />
 
 Using Python requests:
 ```python
@@ -243,52 +317,45 @@ response = requests.post("http://localhost:5000/flower/predict",
 print(response.json())
 ```
 
-#### Getting Model Information
-
-Using curl:
-```bash
-curl -X GET http://localhost:5000/model/info
-```
-
-Using Python requests:
-```python
-import requests
-response = requests.get("http://localhost:5000/model/info")
-print(response.json())
-```
-
 ### Full Training Example
 
-This example shows how to train the model with a batch of Iris data:
+This example shows how to train the model with a batch of Iris data and track accuracy improvements:
 
 ```python
 import requests
 import time
 
-# Sample Iris dataset entries
+# Step 0: Check model info
+response = requests.get("http://localhost:5000/model/info")
+print(f"Model info: {response.json()}")
+
+# Step 1: Check initial model accuracy
+response = requests.get("http://localhost:5000/model/evaluate")
+print(f"Initial model accuracy: {response.json()['accuracy']}")
+print(f"Initial data points: {response.json()['data_points_trained']}")
+
+# Step 2: Add some new data points
 iris_samples = [
     {"sepal_length": 5.1, "sepal_width": 3.5, "petal_length": 1.4, "petal_width": 0.2, "flower_type": "setosa"},
-    {"sepal_length": 4.9, "sepal_width": 3.0, "petal_length": 1.4, "petal_width": 0.2, "flower_type": "setosa"},
     {"sepal_length": 7.0, "sepal_width": 3.2, "petal_length": 4.7, "petal_width": 1.4, "flower_type": "versicolor"},
-    {"sepal_length": 6.3, "sepal_width": 3.3, "petal_length": 6.0, "petal_width": 2.5, "flower_type": "virginica"},
+    {"sepal_length": 6.3, "sepal_width": 3.3, "petal_length": 6.0, "petal_width": 2.5, "flower_type": "virginica"}
 ]
 
-# Add each sample to the blockchain
 for sample in iris_samples:
-    # Add sender field
     sample["sender"] = "training_script"
-    
-    # Send data to blockchain
     response = requests.post("http://localhost:5000/flower/add", json=sample)
     print(f"Added sample: {response.json()}")
 
-# Mine a block to include all transactions
+# Step 3: Mine a block to include all transactions
 response = requests.get("http://localhost:5000/mine")
 print(f"Mined block: {response.json()}")
 
-# Check model info
-response = requests.get("http://localhost:5000/model/info")
-print(f"Model info: {response.json()}")
+# Step 4: Check updated model accuracy
+response = requests.get("http://localhost:5000/model/evaluate")
+print(f"Updated model accuracy: {response.json()['accuracy']}")
+print(f"Updated data points: {response.json()['data_points_trained']}")  # Should be increased by 3
+print(f"Detailed metrics: {response.json()['class_metrics']}")
+
 
 # Make a prediction
 test_flower = {
@@ -302,6 +369,22 @@ response = requests.post("http://localhost:5000/flower/predict", json=test_flowe
 print(f"Prediction: {response.json()}")
 ```
 
+### Monitoring Model Growth Through the Blockchain
+
+Each time a new block is mined, any flower data transactions are processed and the model is updated. The system keeps track of:
+
+1. **Total training data points**: The number of examples the model has learned from
+2. **Accuracy metrics**: How model performance changes as new data is added
+3. **Per-class metrics**: How the model performs for each flower type
+
+This creates a transparent ML system where:
+- Anyone can contribute training data
+- The training history is immutable and recorded on the blockchain
+- Model performance improvements are traceable
+- The collective intelligence of all participants improves model accuracy
+
+<img width="600" alt="model_growth_chart" src="https://github.com/user-attachments/assets/5f2774e0-c18a-4375-9f7d-b24210abe077" />
+
 ## Testing
 
 To run the tests, execute:
@@ -312,6 +395,9 @@ python -m pytest
 ##Postman Collection
 
 For API testing, a Postman collection is available at: Python Blockchain API Collection link - https://www.postman.com/luminouschatbotdevteam/workspace/cs21b1021-blockchain-consensus-testing/collection/41342955-0494f37a-cc20-4753-978d-6ee6d64a4209?action=share&creator=41342955
+
+<img width="932" alt="postman_workspace" src="https://github.com/user-attachments/assets/edb873cf-9a8a-45df-a52d-f41da7efbaa6" />
+
 
 Implementation Details
 Our KNN-based ML model is initialized with scikit-learn's Iris dataset and supports incremental learning as new data points are added through the blockchain. This follows the approach suggested in Microsoft's research paper, where models capable of efficiently updating with one sample are ideal for blockchain integration to lower transaction costs.
